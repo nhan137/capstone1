@@ -46,6 +46,17 @@
         .active-filter {
             font-weight: bold;
         }
+
+        .table {
+            border: 2px solid #007bff; /* Màu xanh */
+        }
+        .table th, .table td {
+            border: 1px solid #007bff; /* Màu xanh cho các ô */
+        }
+        .table th {
+            background-color: #007bff; /* Màu nền cho tiêu đề */
+            color: white; /* Màu chữ cho tiêu đề */
+        }
     </style>
 </head>
 <body>
@@ -86,7 +97,6 @@
                     <th>Shift</th>
                     <th>Description</th>
                     <th>Status</th>
-                    <!-- <th>Approved By</th> -->
                     <th>Submit Date</th>
                     <th>Approval Date</th>
                 </tr>
@@ -104,7 +114,6 @@
                             <td class="status <?= strtolower(htmlspecialchars($request['Status'])) ?>">
                                 <?= htmlspecialchars($request['Status']) ?>
                             </td>
-                            <!-- <td><?= htmlspecialchars($request['ApprovedBy'] ?? 'N/A') ?></td> -->
                             <td><?= htmlspecialchars($request['SubmitDate']) ?></td>
                             <td><?= htmlspecialchars($request['ApprovedDate']) ?></td>
                         </tr>
@@ -116,6 +125,31 @@
                 <?php endif; ?>
             </tbody>
         </table>
+
+        <!-- Phân trang -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <?php if ($page > 1): ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?action=viewPendingRequests&page=<?= $page - 1 ?>&filter=<?= htmlspecialchars($filter) ?>">Previous</a>
+                    </li>
+                <?php endif; ?>
+
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                        <a class="page-link" href="?action=viewPendingRequests&page=<?= $i ?>&filter=<?= htmlspecialchars($filter) ?>">
+                            <?= $i ?>
+                        </a>
+                    </li>
+                <?php endfor; ?>
+
+                <?php if ($page < $totalPages): ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?action=viewPendingRequests&page=<?= $page + 1 ?>&filter=<?= htmlspecialchars($filter) ?>">Next</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </nav>
     </div>
 
     <!-- Bootstrap JS -->

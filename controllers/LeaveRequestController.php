@@ -69,9 +69,18 @@ class LeaveRequestController {
                 $status = null;
         }
         
-        // Lấy danh sách đơn nghỉ phép theo filter
-        $leave_requests = $this->leaveRequestModel->getFilteredLeaveRequests($_SESSION['id'], $status);
+        // Phân trang
+        $limit = 15; // Số bản ghi mỗi trang
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Trang hiện tại
+        $offset = ($page - 1) * $limit; // Tính toán offset
+
+        // Lấy danh sách đơn nghỉ phép theo filter và phân trang
+        $leave_requests = $this->leaveRequestModel->getFilteredLeaveRequests($_SESSION['id'], $status, $limit, $offset);
         
+        // Đếm tổng số yêu cầu để tính số trang
+        $totalRequests = $this->leaveRequestModel->countFilteredLeaveRequests($_SESSION['id'], $status);
+        $totalPages = ceil($totalRequests / $limit); // Tính số trang
+
         // Thêm biến active filter để highlight button
         $activeFilter = $filter;
         
