@@ -155,49 +155,34 @@ switch ($action) {
         }
         break; 
   
-    // // case 'viewPendingReports':
-    // //     $controller->viewPendingReports();
-    // //     break;
-
-    // case 'viewAllPendingReports':
-    //     $attendanceErrorReportController = new AttendanceErrorReportController($pdo);
-    //     $attendanceErrorReportController->viewAllPendingReports();
-    //     break;
-    // case 'approveReport':
-    //     $reportId = $_GET['reportId'];
-    //     $controller->approveReport($reportId);
-    //     break;
-    // case 'rejectReport':
-    //     $reportId = $_GET['reportId'];
-    //     $controller->rejectReport($reportId);
-    //     break;
+    
     case 'attendance': 
         $attendanceController = new AttendanceController(pdo: $pdo);
         $attendanceController->getAttendanceHistory();
         break;
-    case 'caculate-salary': 
-        $salaryController = new SalaryController(pdo: $pdo);
-        $employees = $salaryController->getEmployeeList();
+    // case 'caculate-salary': 
+    //     $salaryController = new SalaryController(pdo: $pdo);
+    //     $employees = $salaryController->getEmployeeList();
         
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $employeeID = $_POST['employeeID'];
-            $baseSalary = $_POST['baseSalary'];
-            $bonus = $_POST['bonus'];
-            $deductions = $_POST['deductions'];
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         $employeeID = $_POST['employeeID'];
+    //         $baseSalary = $_POST['baseSalary'];
+    //         $bonus = $_POST['bonus'];
+    //         $deductions = $_POST['deductions'];
         
-            $totalSalary = $salaryController->calculate($employeeID, $baseSalary, $bonus, $deductions);
-            $attendanceRecords = $salaryController->getEmployeeSalaryDetails($employeeID);
+    //         $totalSalary = $salaryController->calculate($employeeID, $baseSalary, $bonus, $deductions);
+    //         $attendanceRecords = $salaryController->getEmployeeSalaryDetails($employeeID);
            
-            require_once './views/employee/salary/details.php';
+    //         require_once './views/employee/salary/details.php';
             
-        } else {
-            require_once './views/employee/salary/details.php';
-        }
-        break;
-    case 'salary': 
-        $salaryController = new SalaryController(pdo: $pdo);
-        $salaries =  $salaryController->index();
-        break;    
+    //     } else {
+    //         require_once './views/employee/salary/details.php';
+    //     }
+    //     break;
+    // case 'salary': 
+    //     $salaryController = new SalaryController(pdo: $pdo);
+    //     $salaries =  $salaryController->index();
+    //     break;    
     
     // gửi OT
     case 'submitOT':
