@@ -37,9 +37,7 @@ class CheckinCheckoutModel {
     }
 
     // Lưu hoặc cập nhật bảng payroll
-    public function saveOrUpdatePayroll($employeeId, $month, $year, $totalHours, $hourlyRate) {
-        $actualSalary = $totalHours * $hourlyRate;
-        
+    public function saveOrUpdatePayroll($employeeId, $month, $year, $totalHours, $hourlyRate, $actualSalary) {
         $existingPayroll = $this->checkExistingPayroll($employeeId, $month, $year);
 
         if ($existingPayroll) {
@@ -177,11 +175,37 @@ class CheckinCheckoutModel {
     }
 
     // Sửa lại phương thức tính lương
-    public function calculateSalary($baseSalary, $totalHours, $workingDays) {
-        // Tính lương một giờ = Lương cơ bản / (số ngày làm * 8 giờ)
+    public function calculateSalary($baseSalary, $totalHours, $workingDays, $overtimeSalary) {
         $hourlyRate = $baseSalary / ($workingDays * 8);
-        
-        // Tính tổng lương = số giờ làm * lương một giờ
-        return $totalHours * $hourlyRate;
+        return ($totalHours * $hourlyRate) + $overtimeSalary; // Tổng lương = lương cơ bản + lương OT
+    }
+
+    // Lấy dữ liệu OT
+    public function getEmployeeOvertime($employeeId, $month, $year) {
+        $query = "SELECT date, shift, time, status 
+                  FROM ot 
+                  WHERE employeeID = :employeeId 
+                  AND MONTH(date) = :month 
+                  AND YEAR(date) = :year 
+                  AND status = 'Approved'";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([
+            ':employeeId' => $employeeId,
+            ':month' => $month,
+            ':year' => $year
+        ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Tính lương OT
+    public function calculateOvertimeSalary($overtimeHours, $hourlyRate, $shift) {
+        switch ($shift) {
+            case 'Weekend':
+                return $overtimeHours * $hourlyRate * 2; // Lương x2 cho thứ 7 và chủ nhật
+            case 'Holiday':
+                return $overtimeHours * $hourlyRate * 3; // Lương x3 cho ngày lễ
+            default:
+                return $overtimeHours * $hourlyRate * 1.5; // Lương x1.5 cho giờ làm thêm trong tuần
+        }
     }
 }

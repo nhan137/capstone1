@@ -135,6 +135,7 @@ if (!isset($_SESSION['id']) || $_SESSION['role'] !== 'ke toan') {
                 <th>Số giờ làm</th>
                 <th>Tổng lương</th>
                 <th>Ghi chú</th>
+                <th>Lương OT</th>
             </tr>
             <?php foreach ($salariesOnPage as $salary): ?>
                 <tr>
@@ -145,6 +146,7 @@ if (!isset($_SESSION['id']) || $_SESSION['role'] !== 'ke toan') {
                     <td><?= number_format($salary['TotalHours'], 2) ?> giờ</td>
                     <td><?= number_format($salary['Salary'], 0) ?> VND</td>
                     <td><?= htmlspecialchars($salary['Note']) ?></td>
+                    <td><?= number_format($salary['OvertimeSalary'], 0) ?> VND</td>
                 </tr>
             <?php endforeach; ?>
         </table>
