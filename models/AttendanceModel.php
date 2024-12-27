@@ -75,7 +75,7 @@ class AttendanceModel {
         return $attendanceData;
     }
 
-    public function getAttendanceAndOT($employeeId, $startDate, $endDate) {
+    public function getAttendanceAndOT($employeeId, $startDate, $endDate, $limit, $offset) {
         $query = "SELECT 
             c.EmployeeID,
             DATE(c.CheckinTime) as WorkDate,
@@ -96,12 +96,15 @@ class AttendanceModel {
         FROM checkincheckout c
         WHERE c.EmployeeID = :employeeId 
         AND DATE(c.CheckinTime) BETWEEN :startDate AND :endDate
-        ORDER BY c.CheckinTime DESC";
+        ORDER BY c.CheckinTime DESC
+        LIMIT :limit OFFSET :offset";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':employeeId', $employeeId);
         $stmt->bindParam(':startDate', $startDate);
         $stmt->bindParam(':endDate', $endDate);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -127,6 +130,19 @@ class AttendanceModel {
         return $result['totalOvertime'] ?? 0;
     }
     
-    
+    public function countAttendanceRecords($employeeId, $startDate, $endDate) {
+        $query = "SELECT COUNT(*) as total FROM checkincheckout 
+                  WHERE EmployeeID = :employeeId 
+                  AND DATE(CheckinTime) BETWEEN :startDate AND :endDate";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':employeeId', $employeeId);
+        $stmt->bindParam(':startDate', $startDate);
+        $stmt->bindParam(':endDate', $endDate);
+        $stmt->execute();
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'] ?? 0;
+    }
 }
 ?>

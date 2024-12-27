@@ -668,10 +668,10 @@ margin-top: 2rem;
     }
 
     .status-container {
+        max-height: 50px; /* Giới hạn chiều cao tối đa */
+        overflow: hidden; /* Ẩn phần thừa */
         display: flex;
-        flex-direction: column;
-        gap: 4px;
-        min-width: 150px;
+        flex-wrap: wrap; /* Cho phép các phần tử nằm trên nhiều dòng */
     }
 
     .badge {
@@ -706,6 +706,26 @@ margin-top: 2rem;
         .status-container {
             flex-wrap: nowrap;
         }
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination a {
+        padding: 8px 12px;
+        margin: 0 5px;
+        border: 1px solid #3498db;
+        color: #3498db;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .pagination a.active {
+        background-color: #3498db;
+        color: white;
     }
     </style>
 </head>
@@ -820,14 +840,24 @@ margin-top: 2rem;
                 </table>
             </div>
 
-            <!-- Actions -->
-            <div class="attendance-actions">
-                <button class="export-button">
-                    <i class="fas fa-file-export"></i> Export Report
-                </button>
-                <button class="print-button">
-                    <i class="fas fa-print"></i> Print
-                </button>
+            <div class="pagination">
+                <!-- Nút Previous -->
+                <?php if ($page > 1): ?>
+                    <a href="?action=attendance&start_date=<?= htmlspecialchars($start_date) ?>&end_date=<?= htmlspecialchars($end_date) ?>&page=<?= $page - 1 ?>">Previous</a>
+                <?php endif; ?>
+
+                <!-- Các số trang -->
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <a href="?action=attendance&start_date=<?= htmlspecialchars($start_date) ?>&end_date=<?= htmlspecialchars($end_date) ?>&page=<?= $i ?>" 
+                       class="<?= $i == $page ? 'active' : '' ?>">
+                       <?= $i ?>
+                    </a>
+                <?php endfor; ?>
+
+                <!-- Nút Next -->
+                <?php if ($page < $totalPages): ?>
+                    <a href="?action=attendance&start_date=<?= htmlspecialchars($start_date) ?>&end_date=<?= htmlspecialchars($end_date) ?>&page=<?= $page + 1 ?>">Next</a>
+                <?php endif; ?>
             </div>
         </div>
     </div>

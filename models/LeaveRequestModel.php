@@ -82,11 +82,11 @@ class LeaveRequest {
     }
 
     // Thêm method mới
-    public function getFilteredLeaveRequests($employeeId, $status = null) {
+    public function getFilteredLeaveRequests($employeeId, $status = null, $limit = 10, $offset = 0) {
         $query = "SELECT lr.*, e.FirstName, e.LastName 
-                 FROM leaverequest lr
-                 JOIN employee e ON lr.EmployeeID = e.EmployeeID
-                 WHERE lr.EmployeeID = ?";
+                  FROM leaverequest lr
+                  JOIN employee e ON lr.EmployeeID = e.EmployeeID
+                  WHERE lr.EmployeeID = ?";
         
         $params = [$employeeId];
         
@@ -95,14 +95,33 @@ class LeaveRequest {
             $params[] = $status;
         }
         
-        $query .= " ORDER BY lr.SubmitDate DESC";
+        $query .= " ORDER BY lr.SubmitDate DESC LIMIT ? OFFSET ?";
+        $params[] = $limit;
+        $params[] = $offset;
+
+        $stmt = $this->pdo->prepare($query);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key + 1, $value, is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR);
+        }
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function countFilteredLeaveRequests($employeeId, $status = null) {
+        $query = "SELECT COUNT(*) FROM leaverequest WHERE EmployeeID = ?";
+        $params = [$employeeId];
+        
+        if ($status && $status !== 'all') {
+            $query .= " AND Status = ?";
+            $params[] = $status;
+        }
         
         $stmt = $this->pdo->prepare($query);
         foreach ($params as $key => $value) {
             $stmt->bindValue($key + 1, $value);
         }
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchColumn();
     }
 }
 ?>

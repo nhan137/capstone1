@@ -33,8 +33,17 @@ class AttendanceController {
             $end_date = date('Y-m-t');
         }
 
+        // Pagination parameters
+        $limit = 10; // Số bản ghi mỗi trang
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Trang hiện tại
+        $offset = ($page - 1) * $limit; // Tính toán offset
+
         // Lấy dữ liệu chấm công
-        $attendanceData = $this->attendanceModel->getAttendanceAndOT($employee_id, $start_date, $end_date);
+        $attendanceData = $this->attendanceModel->getAttendanceAndOT($employee_id, $start_date, $end_date, $limit, $offset);
+        
+        // Đếm tổng số bản ghi
+        $totalRecords = $this->attendanceModel->countAttendanceRecords($employee_id, $start_date, $end_date);
+        $totalPages = ceil($totalRecords / $limit); // Tính số trang
 
         // Load view
         require_once 'views/employee/attendance/index.php';
