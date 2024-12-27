@@ -31,6 +31,8 @@ class UserController {
                 
                 if ($user['Role'] == 'giam doc') {
                     header("Location: index.php?action=viewEmployeeList");
+                } else if($user['Role'] == 'admin'){
+                    header("Location: index.php?action=account");
                 } else {
                     header("Location: index.php?action=profile");
                 }

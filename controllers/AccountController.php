@@ -8,8 +8,17 @@ class AccountController {
         $this->model = new AccountModel($pdo);
     }
 
+    // Kiểm tra quyền truy cập
+    private function checkAdminAccess() {
+        if (!isset($_SESSION['id']) || $_SESSION['role'] !== 'admin') {
+            header("Location: index.php?action=login");
+            exit();
+        }
+    }
+
     // Hiển thị danh sách tài khoản
     public function index() {
+        $this->checkAdminAccess(); // Kiểm tra quyền truy cập
         $accounts = [];
         $searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
         
@@ -24,14 +33,15 @@ class AccountController {
 
     // Thêm tài khoản mới
     public function create() {
+        $this->checkAdminAccess(); // Kiểm tra quyền truy cập
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Thu thập dữ liệu từ form
             $data = [
                 'username' => $_POST['username'],
                 'password' => $_POST['password'],
-                'firstName' => $_POST['firstName'] ?:null,
-                'lastName' => $_POST['lastName'] ?:null,
+                'firstName' => $_POST['firstName'] ?: null,
+                'lastName' => $_POST['lastName'] ?: null,
                 'dateOfBirth' => $_POST['dateOfBirth'] ?: null,
                 'gender' => $_POST['gender'] ?: null,
                 'identityNumber' => $_POST['identityNumber'] ?: null,
@@ -68,6 +78,8 @@ class AccountController {
 
     // Sửa tài khoản
     public function edit() {
+        $this->checkAdminAccess(); // Kiểm tra quyền truy cập
+
         if (!isset($_GET['id'])) {
             echo "Không tìm thấy ID.";
             exit;
@@ -85,8 +97,8 @@ class AccountController {
             $data = [
                 'username' => $_POST['username'],
                 'password' => $_POST['password'], // Có thể để trống nếu không đổi mật khẩu
-                'firstName' => $_POST['firstName'] ?:null,
-                'lastName' => $_POST['lastName'] ?:null,
+                'firstName' => $_POST['firstName'] ?: null,
+                'lastName' => $_POST['lastName'] ?: null,
                 'dateOfBirth' => $_POST['dateOfBirth'] ?: null,
                 'gender' => $_POST['gender'] ?: null,
                 'identityNumber' => $_POST['identityNumber'] ?: null,
@@ -119,6 +131,8 @@ class AccountController {
 
     // Xóa tài khoản
     public function delete() {
+        $this->checkAdminAccess(); // Kiểm tra quyền truy cập
+
         if (!isset($_GET['id'])) {
             echo "Không tìm thấy ID.";
             exit;
@@ -134,6 +148,8 @@ class AccountController {
     }
 
     public function getAllOTHistory() {
+        $this->checkAdminAccess(); // Kiểm tra quyền truy cập
+
         try {
             $otHistory = $this->model->getAllOTHistory();
             require_once 'views/admin/account/all_ot_history.php';
@@ -144,16 +160,22 @@ class AccountController {
     }
 
     public function getAllErrorReports() {
+        $this->checkAdminAccess(); // Kiểm tra quyền truy cập
+
         $errorReports = $this->model->getAllErrorReports();
         require_once 'views/admin/account/all_error_reports.php';
     }
 
     public function getAllLeaveHistory() {
+        $this->checkAdminAccess(); // Kiểm tra quyền truy cập
+
         $leaveHistory = $this->model->getAllLeaveHistory();
         require_once 'views/admin/account/all_leave_history.php';
     }
 
     public function getAllAttendanceHistory() {
+        $this->checkAdminAccess(); // Kiểm tra quyền truy cập
+
         $attendanceHistory = $this->model->getAllAttendanceHistory();
         require_once 'views/admin/account/all_attendance_history.php';
     }
