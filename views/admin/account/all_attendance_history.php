@@ -48,6 +48,32 @@
         background-color: #4e73df;
         border-color: #4e73df;
     }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .pagination a {
+        margin: 0 5px;
+        padding: 8px 12px;
+        background-color: #007bff; /* Màu nền */
+        color: white; /* Màu chữ */
+        text-decoration: none; /* Bỏ gạch chân */
+        border-radius: 4px; /* Bo góc */
+    }
+
+    .pagination a:hover {
+        background-color: #0056b3; /* Màu nền khi hover */
+    }
+
+    .pagination strong {
+        margin: 0 5px;
+        padding: 8px 12px;
+        background-color: #6c757d; /* Màu nền cho số trang hiện tại */
+        color: white; /* Màu chữ */
+        border-radius: 4px; /* Bo góc */
+    }
     </style>
 </head>
 <body id="page-top">
@@ -138,41 +164,90 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($attendanceHistory as $record): ?>
-                                            <tr>
-                                                <td><?= htmlspecialchars($record['FirstName'] . ' ' . $record['LastName']) ?></td>
-                                                <td><?= htmlspecialchars(date('Y-m-d', strtotime($record['CheckinTime']))) ?></td>
-                                                <td><?= htmlspecialchars(date('H:i:s', strtotime($record['CheckinTime']))) ?></td>
-                                                <td><?= $record['CheckoutTime'] ? htmlspecialchars(date('H:i:s', strtotime($record['CheckoutTime']))) : 'Not checked out' ?></td>
-                                                <td><?= $record['TotalHours'] ? htmlspecialchars($record['TotalHours']) : 'N/A' ?></td>
-                                                <td class="location-cell"><?= htmlspecialchars($record['GPSLocation']) ?></td>
-                                                <td class="location-cell"><?= htmlspecialchars($record['CheckoutLocation'] ?? 'N/A') ?></td>
-                                                <td>
-                                                    <?php
-                                                    $checkinTime = strtotime($record['CheckinTime']);
-                                                    $checkoutTime = !empty($record['CheckoutTime']) ? strtotime($record['CheckoutTime']) : null;
+                                        <?php
+                                        // Số bản ghi trên mỗi trang
+                                        $itemsPerPage = 10;
 
-                                                    // Kiểm tra check-in
-                                                    if (date('H:i:s', $checkinTime) <= '08:30:00') {
-                                                        echo '<span class="status-badge on-time">Check-in On Time</span><br>';
-                                                    } else {
-                                                        echo '<span class="status-badge late">Late Check-in</span><br>';
-                                                    }
+                                        // Tổng số bản ghi
+                                        $totalAttendanceRecords = count($attendanceHistory); // Giả sử bạn đã có mảng này
+                                        $totalPages = ceil($totalAttendanceRecords / $itemsPerPage);
 
-                                                    // Kiểm tra check-out
-                                                    if ($checkoutTime) {
-                                                        if (date('H:i:s', $checkoutTime) >= '17:30:00') {
-                                                            echo '<span class="status-badge on-time">Check-out On Time</span>';
+                                        // Lấy trang hiện tại từ GET
+                                        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+                                        // Đảm bảo trang hiện tại hợp lệ
+                                        if ($currentPage < 1) $currentPage = 1;
+                                        if ($currentPage > $totalPages) $currentPage = $totalPages;
+
+                                        // Tính chỉ số bắt đầu cho truy vấn
+                                        $start = ($currentPage - 1) * $itemsPerPage;
+
+                                        // Lấy dữ liệu cho trang hiện tại
+                                        $attendanceHistoryOnPage = array_slice($attendanceHistory, $start, $itemsPerPage);
+                                        ?>
+
+                                        <?php if (!empty($attendanceHistoryOnPage)): ?>
+                                            <?php foreach ($attendanceHistoryOnPage as $record): ?>
+                                                <tr>
+                                                    <td><?= htmlspecialchars($record['FirstName'] . ' ' . $record['LastName']) ?></td>
+                                                    <td><?= htmlspecialchars(date('Y-m-d', strtotime($record['CheckinTime']))) ?></td>
+                                                    <td><?= htmlspecialchars(date('H:i:s', strtotime($record['CheckinTime']))) ?></td>
+                                                    <td><?= $record['CheckoutTime'] ? htmlspecialchars(date('H:i:s', strtotime($record['CheckoutTime']))) : 'Not checked out' ?></td>
+                                                    <td><?= $record['TotalHours'] ? htmlspecialchars($record['TotalHours']) : 'N/A' ?></td>
+                                                    <td class="location-cell"><?= htmlspecialchars($record['GPSLocation']) ?></td>
+                                                    <td class="location-cell"><?= htmlspecialchars($record['CheckoutLocation'] ?? 'N/A') ?></td>
+                                                    <td>
+                                                        <?php
+                                                        $checkinTime = strtotime($record['CheckinTime']);
+                                                        $checkoutTime = !empty($record['CheckoutTime']) ? strtotime($record['CheckoutTime']) : null;
+
+                                                        // Kiểm tra check-in
+                                                        if (date('H:i:s', $checkinTime) <= '08:30:00') {
+                                                            echo '<span class="status-badge on-time">Check-in On Time</span><br>';
                                                         } else {
-                                                            echo '<span class="status-badge early">Early Check-out</span>';
+                                                            echo '<span class="status-badge late">Late Check-in</span><br>';
                                                         }
-                                                    }
-                                                    ?>
-                                                </td>
+
+                                                        // Kiểm tra check-out
+                                                        if ($checkoutTime) {
+                                                            if (date('H:i:s', $checkoutTime) >= '17:30:00') {
+                                                                echo '<span class="status-badge on-time">Check-out On Time</span>';
+                                                            } else {
+                                                                echo '<span class="status-badge early">Early Check-out</span>';
+                                                            }
+                                                        }
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <tr>
+                                                <td colspan="6">No data available.</td>
                                             </tr>
-                                        <?php endforeach; ?>
+                                        <?php endif; ?>
                                     </tbody>
                                 </table>
+
+                                <!-- Hiển thị phân trang -->
+                                <div class="pagination">
+                                    <?php if ($currentPage > 1): ?>
+                                        <a href="?action=all_attendance_history&page=1<?= isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '' ?>">First</a>
+                                        <a href="?action=all_attendance_history&page=<?= $currentPage - 1 ?><?= isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '' ?>">Previous</a>
+                                    <?php endif; ?>
+
+                                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                        <?php if ($i == $currentPage): ?>
+                                            <strong><?= $i ?></strong>
+                                        <?php else: ?>
+                                            <a href="?action=all_attendance_history&page=<?= $i ?><?= isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '' ?>"><?= $i ?></a>
+                                        <?php endif; ?>
+                                    <?php endfor; ?>
+
+                                    <?php if ($currentPage < $totalPages): ?>
+                                        <a href="?action=all_attendance_history&page=<?= $currentPage + 1 ?><?= isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '' ?>">Next</a>
+                                        <a href="?action=all_attendance_history&page=<?= $totalPages ?><?= isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '' ?>">Last</a>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         </div>
                     </div>

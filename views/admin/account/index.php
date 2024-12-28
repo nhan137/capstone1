@@ -31,6 +31,33 @@
         background-color: #4e73df;
         border-color: #4e73df;
     }
+    /* styles.css */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .pagination a {
+        margin: 0 5px;
+        padding: 8px 12px;
+        background-color: #007bff; /* Màu nền */
+        color: white; /* Màu chữ */
+        text-decoration: none; /* Bỏ gạch chân */
+        border-radius: 4px; /* Bo góc */
+    }
+
+    .pagination a:hover {
+        background-color: #0056b3; /* Màu nền khi hover */
+    }
+
+    .pagination strong {
+        margin: 0 5px;
+        padding: 8px 12px;
+        background-color: #6c757d; /* Màu nền cho số trang hiện tại */
+        color: white; /* Màu chữ */
+        border-radius: 4px; /* Bo góc */
+    }
     </style>
 
 </head>
@@ -150,6 +177,31 @@
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
+                                <?php
+                                // Số bản ghi trên mỗi trang
+                                $itemsPerPage = 10;
+
+                                // Tổng số tài khoản
+                                $totalAccounts = count($accounts);
+
+                                // Tính số trang
+                                $totalPages = ceil($totalAccounts / $itemsPerPage);
+
+                                // Lấy trang hiện tại từ GET, mặc định là 1
+                                $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+                                // Đảm bảo trang hiện tại hợp lệ
+                                if ($currentPage < 1) $currentPage = 1;
+                                if ($currentPage > $totalPages) $currentPage = $totalPages;
+
+                                // Tính chỉ số bắt đầu cho truy vấn
+                                $start = ($currentPage - 1) * $itemsPerPage;
+
+                                // Lấy dữ liệu cho trang hiện tại
+                                $accountsOnPage = array_slice($accounts, $start, $itemsPerPage);
+                                ?>
+
+                                <!-- Hiển thị danh sách tài khoản -->
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
@@ -164,10 +216,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php if (!empty($accounts)): ?>
-                                        <?php foreach ($accounts as $index => $account): ?>
+                                        <?php if (!empty($accountsOnPage)): ?>
+                                        <?php foreach ($accountsOnPage as $index => $account): ?>
                                         <tr>
-                                            <td><?= $index + 1 ?></td>
+                                            <td><?= $start + $index + 1 ?></td>
                                             <td><?= htmlspecialchars($account['Username']) ?></td>
                                             <td><?= htmlspecialchars($account['FirstName']) ?></td>
                                             <td><?= htmlspecialchars($account['LastName']) ?></td>
@@ -190,6 +242,27 @@
                                         <?php endif; ?>
                                     </tbody>
                                 </table>
+
+                                <!-- Hiển thị phân trang -->
+                                <div class="pagination">
+                                    <?php if ($currentPage > 1): ?>
+                                        <a href="?action=account&page=1<?= isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '' ?>">First</a>
+                                        <a href="?action=account&page=<?= $currentPage - 1 ?><?= isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '' ?>">Previous</a>
+                                    <?php endif; ?>
+
+                                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                        <?php if ($i == $currentPage): ?>
+                                            <strong><?= $i ?></strong>
+                                        <?php else: ?>
+                                            <a href="?action=account&page=<?= $i ?><?= isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '' ?>"><?= $i ?></a>
+                                        <?php endif; ?>
+                                    <?php endfor; ?>
+
+                                    <?php if ($currentPage < $totalPages): ?>
+                                        <a href="?action=account&page=<?= $currentPage + 1 ?><?= isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '' ?>">Next</a>
+                                        <a href="?action=account&page=<?= $totalPages ?><?= isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '' ?>">Last</a>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         </div>
                     </div>
