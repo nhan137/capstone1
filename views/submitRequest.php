@@ -9,6 +9,29 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
+    <style>
+        
+        .pending-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #007BFF; /* Bootstrap primary color */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .pending-link:hover {
+            background-color: #0056b3; /* Darker shade for hover effect */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+
+        .pending-link i {
+            margin-right: 5px; /* Space between icon and text */
+        }
+
+    </style>
 </head>
 <body>
     <?php include 'views/layouts/sidebar.php'; ?>
