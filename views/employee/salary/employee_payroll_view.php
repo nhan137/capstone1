@@ -34,7 +34,6 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Payroll ID</th>
                             <th>Month</th>
                             <th>Year</th>
                             <th>Total Hours</th>
@@ -50,7 +49,6 @@
                             });
                             foreach ($payrolls as $payroll): ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($payroll['PayrollID']) ?></td>
                                     <td><?= htmlspecialchars($payroll['Month']) ?></td>
                                     <td><?= htmlspecialchars($payroll['Year']) ?></td>
                                     <td><?= htmlspecialchars($payroll['TotalHours']) ?></td>

@@ -182,10 +182,10 @@ class CheckinModel {
         
         // Định nghĩa các điểm của khu vực công ty
         $polygonPoints = [
-            [16.063481, 108.156315], // Điểm phía Bắc
-            [16.063281, 108.156715], // Điểm phía Đông
-            [16.063081, 108.156515], // Điểm phía Nam
-            [16.063281, 108.156315]  // Điểm phía Tây
+            [16.063803, 108.182818], // Điểm phía Bắc
+            [16.063353, 108.183293], // Điểm phía Đông
+            [16.062903, 108.182818], // Điểm phía Nam
+            [16.063353, 108.182343]  // Điểm phía Tây
         ];
         
         // Kiểm tra xem tọa độ có nằm trong khu vực không

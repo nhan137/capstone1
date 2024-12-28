@@ -26,10 +26,10 @@ function getGPSCoordinates() {
         
         // Định nghĩa các điểm của khu vực công ty
         const polygonPoints = [
-            [16.063481, 108.156315], // Điểm phía Bắc
-            [16.063281, 108.156715], // Điểm phía Đông
-            [16.063081, 108.156515], // Điểm phía Nam
-            [16.063281, 108.156315]  // Điểm phía Tây
+            [15.8703, 108.2687], // Điểm phía Bắc
+            [15.8702, 108.2688], // Điểm phía Đông
+            [15.8701, 108.2687], // Điểm phía Nam
+            [15.8702, 108.2686]  // Điểm phía Tây
         ];
 
         // Kiểm tra vị trí
