@@ -132,7 +132,8 @@ class PayrollController {
                 $year, 
                 $totalHours,
                 $employee['BaseSalary'] / ($workingDays * 8),
-                $salary // Lưu tổng lương vào ActualSalary
+                $salary, // ActualSalary
+                $overtimeSalary // OTSalary
             );
 
             $results[] = [

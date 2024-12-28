@@ -35,10 +35,10 @@
             <input type="hidden" id="employee-id" value="<?php echo $_SESSION['id']; ?>" />
             <input type="hidden" id="is-in-company" name="is_in_company" />
             
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label>Employee ID</label>
                 <input type="text" value="<?php echo isset($_SESSION['id']) ? $_SESSION['id'] : ''; ?>" readonly />
-            </div>
+            </div> -->
 
             <div class="form-group">
                 <label>Name</label>

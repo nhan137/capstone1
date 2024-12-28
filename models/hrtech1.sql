@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th12 27, 2024 lúc 05:33 PM
+-- Thời gian đã tạo: Th12 28, 2024 lúc 07:14 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -98,7 +98,8 @@ INSERT INTO `checkincheckout` (`CheckinCheckoutID`, `CheckinTime`, `CheckoutTime
 (177, '2024-11-30 08:00:00', '2024-11-30 17:30:00', 20, '15.8695424,108.2294272', '15.8695424,108.2294272'),
 (180, '2024-12-11 15:15:12', '2024-12-11 15:15:12', 1, '16.0315263, 108.2251599', '16.0315263, 108.2251599'),
 (181, '2024-12-14 14:16:42', '2024-12-14 14:17:22', 1, '16.057122, 108.1858697', '16.057122, 108.1858697'),
-(182, '2024-12-27 10:01:43', '2024-12-27 10:02:54', 1, '16.06331741214764, 108.15648267027868', '16.063317859860515, 108.15648248952442');
+(182, '2024-12-27 10:01:43', '2024-12-27 10:02:54', 1, '16.06331741214764, 108.15648267027868', '16.063317859860515, 108.15648248952442'),
+(185, '2024-12-28 12:59:40', '2024-12-28 12:59:40', 1, '16.06335162506264, 108.18281901215188', '16.06335162506264, 108.18281901215188');
 
 -- --------------------------------------------------------
 
@@ -123,7 +124,7 @@ CREATE TABLE `employee` (
   `Hometown` varchar(100) DEFAULT NULL,
   `PlaceOfBirth` varchar(100) DEFAULT NULL,
   `Nationality` varchar(50) DEFAULT NULL,
-  `Role` enum('giam doc','nhan vien','ke toan') DEFAULT NULL,
+  `Role` enum('giam doc','nhan vien','ke toan','admin') DEFAULT NULL,
   `BaseSalary` decimal(15,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -132,12 +133,12 @@ CREATE TABLE `employee` (
 --
 
 INSERT INTO `employee` (`EmployeeID`, `Username`, `Password`, `FirstName`, `LastName`, `DateOfBirth`, `Gender`, `IdentityNumber`, `IdentityIssuedDate`, `IdentityIssuedPlace`, `Email`, `PhoneNumber`, `MaritalStatus`, `Hometown`, `PlaceOfBirth`, `Nationality`, `Role`, `BaseSalary`) VALUES
-(1, 'NguyenDoanNhan', '$2y$10$OM49cMvvGJN5YPyOMjER6.joVY0tV2XWdtynK83XyH0PNoJ6FWK3m', 'Nguyễn Doãn', 'Nhân', '2003-12-13', NULL, '123456789', '2020-11-18', 'Da Nang', 'nhannguyen13072003@gmail.com', '0366010078', 'Có gia đình', 'Da Nang', 'Viet Nam', 'Việt Nam', 'nhan vien', 10000000.00),
-(2, 'PhanPhuTuan', '$2y$10$.eEzU0GFNB9gpaTWxxW06e3zq9h7Jh5nsr1HN2YhwPxoLZ833KGs6', 'Phan Phu', 'tuan', '2003-11-12', 'male', '0728149212', '2024-11-19', 'Đà nẵng city', 'phutuan@gmail.com', '0366010078', 'Độc thân', 'đà nẵng', 'việt nam', 'Việt Nam', 'nhan vien', 17000000.00),
+(1, 'NguyenDoanNhan', '$2y$10$OM49cMvvGJN5YPyOMjER6.joVY0tV2XWdtynK83XyH0PNoJ6FWK3m', 'Nguyễn Doãn', 'Nhân', '2003-12-13', 'female', '123456789', '2020-11-18', 'Da Nang', 'nhannguyen13072003@gmail.com', '0366010078', 'Có gia đình', 'Da Nang', 'Viet Nam', 'Việt Nam', 'nhan vien', 10000000.00),
+(2, 'PhanPhuTuan', '$2y$10$V1K7xsb/71vMzmbW2zr2Fu/pEKF32Wty3ajQGGVboCIWChxyY2Aii', 'Phan Phu', 'tuan', '2003-11-12', 'male', '0728149212', '2024-11-19', 'Đà nẵng city', 'phutuan@gmail.com', '0366010078', 'Độc thân', 'đà nẵng', 'việt nam', 'Việt Nam', 'nhan vien', 17000000.00),
 (13, 'Khangnguyen', '$2y$10$l8kCydLJ8die4ND38w1zH.IzLGbohC7eOgfVdgTw/0OGcH6bD2L7O', 'Nguyen', 'khang', '2003-12-07', NULL, '049203015584', '2003-12-08', 'điện bàn', 'trieu8845@gmail.com', '0329462933', 'Độc thân', NULL, 'điện bàn quảng nam', 'Việt Nam', 'giam doc', 0.00),
 (17, 'NguyenDoanminh', '$2y$10$P9g4uMiYfLaAA89rIe2hFes.3b6bFluEAnMWi5jOdA.kbxCTyjKbS', 'nguyen', 'Nghia', '2003-12-12', 'male', '049203015584', '2021-11-11', 'điện bàn', 'trieu8845@gmail.com', '0329462933', 'Độc thân', 'quảng nam ', 'điện bàn quảng nam', 'Việt Nam', 'ke toan', 0.00),
-(18, 'TranThiHong', '$2y$10$2FqHyx7f2C1s4oxzRwPZ/.KU5q/PZBHsE8bWmJYMXruB2UpCuZulO', 'Trần Thị', 'Hồng', '1995-05-15', 'female', '123789456', '2019-03-20', 'Da Nang', 'hong.tran@gmail.com', '0905123456', 'Độc thân', 'Da Nang', 'Da Nang', 'Việt Nam', 'nhan vien', 0.00),
-(19, 'LeVanThanh', '$2y$10$2FqHyx7f2C1s4oxzRwPZ/.KU5q/PZBHsE8bWmJYMXruB2UpCuZulO', 'Lê Văn', 'Thành', '1990-08-22', 'male', '987654321', '2018-06-15', 'Quang Nam', 'thanh.le@gmail.com', '0935789123', 'Có gia đình', 'Quang Nam', 'Quang Nam', 'Việt Nam', 'nhan vien', 0.00),
+(18, 'TranThiHong', '$2y$10$hlQsk6oCJHNndJDHPk9GqOMInReGOyD.UU0tBSpxJRW1EecTYCCau', 'Trần Thị', 'Hồng', '1995-05-15', 'female', '123789456', '2019-03-20', 'Da Nang', 'hong.tran@gmail.com', '0905123456', 'Độc thân', 'Da Nang', 'Da Nang', 'Việt Nam', 'nhan vien', 8000000.00),
+(19, 'LeVanThanh', '$2y$10$csVDDsKZN64LKJYHgrkWWeDKGqKzJyPg39OfIrbOBtMWT.WvrdSqa', 'Lê Văn', 'Thành', '1990-08-22', 'female', '987654321', '2018-06-15', 'Quang Nam', 'thanh.le@gmail.com', '0935789123', 'Có gia đình', 'Quang Nam', 'Quang Nam', 'Việt Nam', 'nhan vien', 9000000.00),
 (20, 'NguyenThiLan', '$2y$10$2FqHyx7f2C1s4oxzRwPZ/.KU5q/PZBHsE8bWmJYMXruB2UpCuZulO', 'Nguyễn Thị', 'Lan', '1993-12-10', 'female', '456123789', '2020-01-10', 'Hue', 'lan.nguyen@gmail.com', '0978456123', 'Độc thân', 'Hue', 'Hue', 'Việt Nam', 'nhan vien', 0.00),
 (21, 'PhamVanHai', '$2y$10$2FqHyx7f2C1s4oxzRwPZ/.KU5q/PZBHsE8bWmJYMXruB2UpCuZulO', 'Phạm Văn', 'Hải', '1988-04-25', 'male', '789456123', '2017-09-30', 'Da Nang', 'hai.pham@gmail.com', '0912345678', 'Có gia đình', 'Da Nang', 'Da Nang', 'Việt Nam', 'nhan vien', 0.00),
 (22, 'HoangThiMai', '$2y$10$2FqHyx7f2C1s4oxzRwPZ/.KU5q/PZBHsE8bWmJYMXruB2UpCuZulO', 'Hoàng Thị', 'Mai', '1992-07-18', 'female', '321654987', '2019-11-25', 'Quang Nam', 'mai.hoang@gmail.com', '0945678123', 'Độc thân', 'Quang Nam', 'Quang Nam', 'Việt Nam', 'nhan vien', 0.00),
@@ -153,7 +154,8 @@ INSERT INTO `employee` (`EmployeeID`, `Username`, `Password`, `FirstName`, `Last
 (32, 'LeVanDat', '$2y$10$2FqHyx7f2C1s4oxzRwPZ/.KU5q/PZBHsE8bWmJYMXruB2UpCuZulO', 'Lê Văn', 'Đạt', '1992-04-03', 'male', '486159357', '2019-01-25', 'Hue', 'dat.le@gmail.com', '0967123456', 'Độc thân', 'Hue', 'Hue', 'Việt Nam', 'nhan vien', 0.00),
 (33, 'PhamThiThao', '$2y$10$2FqHyx7f2C1s4oxzRwPZ/.KU5q/PZBHsE8bWmJYMXruB2UpCuZulO', 'Phạm Thị', 'Thảo', '1991-08-17', 'female', '753951486', '2018-10-15', 'Da Nang', 'thao.pham@gmail.com', '0923789456', 'Có gia đình', 'Da Nang', 'Da Nang', 'Việt Nam', 'nhan vien', 0.00),
 (34, 'HoangThiLoan', '$2y$10$2FqHyx7f2C1s4oxzRwPZ/.KU5q/PZBHsE8bWmJYMXruB2UpCuZulO', 'Hoàng Thị', 'Loan', '1994-05-22', 'female', '951753486', '2020-07-10', 'Quang Nam', 'loan.hoang@gmail.com', '0945678912', 'Độc thân', 'Quang Nam', 'Quang Nam', 'Việt Nam', 'nhan vien', 0.00),
-(35, 'VoVanThanh', '$2y$10$2FqHyx7f2C1s4oxzRwPZ/.KU5q/PZBHsE8bWmJYMXruB2UpCuZulO', 'Võ Văn', 'Thành', '1989-03-11', 'male', '486753951', '2017-04-20', 'Da Nang', 'thanh.vo@gmail.com', '0989456123', 'Có gia đình', 'Da Nang', 'Da Nang', 'Việt Nam', 'nhan vien', 0.00);
+(35, 'VoVanThanh', '$2y$10$2FqHyx7f2C1s4oxzRwPZ/.KU5q/PZBHsE8bWmJYMXruB2UpCuZulO', 'Võ Văn', 'Thành', '1989-03-11', 'male', '486753951', '2017-04-20', 'Da Nang', 'thanh.vo@gmail.com', '0989456123', 'Có gia đình', 'Da Nang', 'Da Nang', 'Việt Nam', 'nhan vien', 0.00),
+(39, 'admin', '$2y$10$DHZ0d9wRTGt1WZoHEpCdGuIYo3drSft9uu4Qsjm/ZHQ/k9poLXLFy', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'admin', 0.00);
 
 -- --------------------------------------------------------
 
@@ -234,8 +236,13 @@ CREATE TABLE `ot` (
 --
 
 INSERT INTO `ot` (`overtimeID`, `employeeID`, `date`, `shift`, `time`, `description`, `status`) VALUES
-(46, 1, '2024-12-29', 'Weekend', 2.00, '123', 'Pending'),
-(47, 1, '2025-01-04', 'Night', 1.00, '1233333333333', 'Pending');
+(52, 1, '2024-11-24', 'Night', 2.00, 'abc', 'Approved'),
+(53, 2, '2024-11-20', 'Weekend', 2.00, 'asd', 'Approved'),
+(54, 18, '2024-11-17', 'Holiday', 2.00, 'nghỉ lễ', 'Approved'),
+(55, 19, '2024-09-02', 'Night', 1.00, 'Quốc Khánh', 'Approved'),
+(56, 19, '2024-09-02', 'Holiday', 1.00, 'Quốc Khánh', 'Approved'),
+(57, 19, '2024-09-01', 'Holiday', 1.00, 'trước Quốc Khánh', 'Approved'),
+(58, 19, '2024-09-02', 'Weekend', 1.00, 'Quốc Khánh', 'Approved');
 
 -- --------------------------------------------------------
 
@@ -262,8 +269,8 @@ INSERT INTO `payroll` (`PayrollID`, `EmployeeID`, `Month`, `Year`, `TotalHours`,
 (2, 2, 12, 2024, 0.00, 96590.91, 0.00),
 (3, 13, 12, 2024, 0.00, 0.00, 0.00),
 (4, 17, 12, 2024, 0.00, 0.00, 0.00),
-(5, 18, 12, 2024, 0.00, 0.00, 0.00),
-(6, 19, 12, 2024, 0.00, 0.00, 0.00),
+(5, 18, 12, 2024, 0.00, 45454.55, 0.00),
+(6, 19, 12, 2024, 0.00, 51136.36, 0.00),
 (7, 20, 12, 2024, 0.00, 0.00, 0.00),
 (8, 21, 12, 2024, 0.00, 0.00, 0.00),
 (9, 22, 12, 2024, 0.00, 0.00, 0.00),
@@ -280,12 +287,12 @@ INSERT INTO `payroll` (`PayrollID`, `EmployeeID`, `Month`, `Year`, `TotalHours`,
 (20, 33, 12, 2024, 0.00, 0.00, 0.00),
 (21, 34, 12, 2024, 0.00, 0.00, 0.00),
 (22, 35, 12, 2024, 0.00, 0.00, 0.00),
-(23, 1, 11, 2024, 31.75, 59523.81, 1889880.95),
-(24, 2, 11, 2024, 15.83, 101190.48, 1601845.24),
+(23, 1, 11, 2024, 31.75, 59523.81, 2127976.19),
+(24, 2, 11, 2024, 15.83, 101190.48, 1905416.67),
 (25, 13, 11, 2024, 0.00, 0.00, 0.00),
 (26, 17, 11, 2024, 0.00, 0.00, 0.00),
-(27, 18, 11, 2024, 23.83, 0.00, 0.00),
-(28, 19, 11, 2024, 39.00, 0.00, 0.00),
+(27, 18, 11, 2024, 23.83, 47619.05, 1325238.10),
+(28, 19, 11, 2024, 39.00, 53571.43, 2089285.71),
 (29, 20, 11, 2024, 23.50, 0.00, 0.00),
 (30, 21, 11, 2024, 0.00, 0.00, 0.00),
 (31, 22, 11, 2024, 0.00, 0.00, 0.00),
@@ -640,8 +647,8 @@ INSERT INTO `payroll` (`PayrollID`, `EmployeeID`, `Month`, `Year`, `TotalHours`,
 (380, 35, 7, 2024, 0.00, 0.00, 0.00),
 (381, 1, 9, 2024, 0.00, 59523.81, 0.00),
 (382, 2, 9, 2024, 0.00, 101190.48, 0.00),
-(383, 18, 9, 2024, 0.00, 0.00, 0.00),
-(384, 19, 9, 2024, 0.00, 0.00, 0.00),
+(383, 18, 9, 2024, 0.00, 47619.05, 0.00),
+(384, 19, 9, 2024, 0.00, 53571.43, 589285.71),
 (385, 20, 9, 2024, 0.00, 0.00, 0.00),
 (386, 21, 9, 2024, 0.00, 0.00, 0.00),
 (387, 22, 9, 2024, 0.00, 0.00, 0.00),
@@ -718,13 +725,13 @@ ALTER TABLE `attendanceerrorreport`
 -- AUTO_INCREMENT cho bảng `checkincheckout`
 --
 ALTER TABLE `checkincheckout`
-  MODIFY `CheckinCheckoutID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=183;
+  MODIFY `CheckinCheckoutID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
 
 --
 -- AUTO_INCREMENT cho bảng `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `EmployeeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `EmployeeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT cho bảng `leaverequest`
@@ -736,7 +743,7 @@ ALTER TABLE `leaverequest`
 -- AUTO_INCREMENT cho bảng `ot`
 --
 ALTER TABLE `ot`
-  MODIFY `overtimeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `overtimeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT cho bảng `payroll`

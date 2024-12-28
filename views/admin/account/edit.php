@@ -343,13 +343,13 @@
                                     <select class="form-control" id="gender" name="gender">
                                         <option value="">Chọn giới tính</option>
                                         <option value="male"
-                                            <?php echo ($account['gender'] == 'male') ? 'selected' : ''; ?>>Nam
+                                            <?php echo (isset($account['gender']) && $account['gender'] == 'male') ? 'selected' : ''; ?>>Nam
                                         </option>
                                         <option value="female"
-                                            <?php echo ($account['gender'] == 'female') ? 'selected' : ''; ?>>Nữ
+                                            <?php echo (isset($account['gender']) && $account['gender'] == 'female') ? 'selected' : ''; ?>>Nữ
                                         </option>
                                         <option value="other"
-                                            <?php echo ($account['gender'] == 'other') ? 'selected' : ''; ?>>Khác
+                                            <?php echo (isset($account['gender']) && $account['gender'] == 'other') ? 'selected' : ''; ?>>Khác
                                         </option>
                                     </select>
                                 </div>

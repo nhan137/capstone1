@@ -37,22 +37,23 @@ class CheckinCheckoutModel {
     }
 
     // Lưu hoặc cập nhật bảng payroll
-    public function saveOrUpdatePayroll($employeeId, $month, $year, $totalHours, $hourlyRate, $actualSalary) {
+    public function saveOrUpdatePayroll($employeeId, $month, $year, $totalHours, $hourlyRate, $actualSalary, $overtimeSalary) {
         $existingPayroll = $this->checkExistingPayroll($employeeId, $month, $year);
 
         if ($existingPayroll) {
             $query = "UPDATE payroll 
                      SET TotalHours = :totalHours,
                          HourlyRate = :hourlyRate,
-                         ActualSalary = :actualSalary
+                         ActualSalary = :actualSalary,
+                         OTSalary = :overtimeSalary
                      WHERE EmployeeID = :employeeId 
                      AND Month = :month 
                      AND Year = :year";
         } else {
             $query = "INSERT INTO payroll 
-                     (EmployeeID, Month, Year, TotalHours, HourlyRate, ActualSalary)
+                     (EmployeeID, Month, Year, TotalHours, HourlyRate, ActualSalary, OTSalary)
                      VALUES 
-                     (:employeeId, :month, :year, :totalHours, :hourlyRate, :actualSalary)";
+                     (:employeeId, :month, :year, :totalHours, :hourlyRate, :actualSalary, :overtimeSalary)";
         }
 
         $params = [
@@ -61,7 +62,8 @@ class CheckinCheckoutModel {
             ':year' => $year,
             ':totalHours' => $totalHours,
             ':hourlyRate' => $hourlyRate,
-            ':actualSalary' => $actualSalary
+            ':actualSalary' => $actualSalary,
+            ':overtimeSalary' => $overtimeSalary
         ];
 
         $stmt = $this->db->prepare($query);
