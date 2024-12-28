@@ -61,6 +61,7 @@ class SalaryDetailModel {
                     p.TotalHours,
                     p.HourlyRate,
                     p.ActualSalary,
+                    p.OTSalary,
                     e.FirstName,
                     e.LastName,
                     e.BaseSalary,
