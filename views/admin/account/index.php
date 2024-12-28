@@ -90,6 +90,11 @@
                     <span class="font-weight-bold">Attendance History</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link logout-button" href="index.php?action=logout">
+                    <i class="fab fa-angellist"></i>Logout
+                </a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
