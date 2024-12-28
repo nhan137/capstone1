@@ -90,7 +90,7 @@
         <table class="table table-striped table-bordered">
             <thead class="table-dark">
                 <tr>
-                    <th>ID</th>
+                    <!-- <th>ID</th> -->
                     <th>Start Date</th>
                     <th>End Date</th>
                     <th>Leave Type</th>
@@ -105,7 +105,7 @@
                 <?php if (!empty($leave_requests)): ?>
                     <?php foreach ($leave_requests as $request): ?>
                         <tr>
-                            <td><?= htmlspecialchars($request['LeaveRequestID']) ?></td>
+                            <!-- <td><?= htmlspecialchars($request['LeaveRequestID']) ?></td> -->
                             <td><?= htmlspecialchars($request['StartDate']) ?></td>
                             <td><?= htmlspecialchars($request['EndDate']) ?></td>
                             <td><?= htmlspecialchars($request['Reason']) ?></td>

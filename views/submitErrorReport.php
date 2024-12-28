@@ -53,7 +53,7 @@
                     <tr>
                         <th>No</th>
                         <th>Employee Name</th>
-                        <th>Employee ID</th>
+                        <!-- <th>Employee ID</th> -->
                         <th>Error Description</th>
                         <th>Attachment</th>
                         <th>Report Date</th>
@@ -70,7 +70,7 @@
                     <tr>
                         <td><?php echo $index + 1; ?></td>
                         <td><?php echo htmlspecialchars($report['FirstName'] . ' ' . $report['LastName']); ?></td>
-                        <td><?php echo htmlspecialchars($report['EmployeeID']); ?></td>
+                        <!-- <td><?php echo htmlspecialchars($report['EmployeeID']); ?></td> -->
                         <td><?php echo htmlspecialchars($report['ErrorDescription']); ?></td>
                         <td>
                             <?php if (!empty($report['Attachment'])): ?>
